@@ -251,7 +251,7 @@ namespace NotationPlus
                 middle = new WhiteNote(WhiteNote.B, 5);
             else
                 middle = new WhiteNote(WhiteNote.D, 3);
-
+            
             int dist = middle.Dist(bottom) + middle.Dist(top);
             if (dist >= 0)
                 return Stem.Up;

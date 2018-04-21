@@ -46,7 +46,7 @@ namespace NotationPlus
 
             /* Create the dialog box */
             dialog = new Form();
-            dialog.Text = "Play Selected Measures in a Loop";
+            dialog.Text = "循环内播放指定的步长";
             dialog.MaximizeBox = false;
             dialog.MinimizeBox = false;
             dialog.ShowInTaskbar = false;
@@ -61,7 +61,7 @@ namespace NotationPlus
 
             enable = new CheckBox();
             enable.Parent = dialog;
-            enable.Text = "Play Selected Measures in a Loop";
+            enable.Text = "循环内播放指定的步长";
             enable.Checked = false;
             enable.Location = new Point(xpos, ypos);
             enable.Size = new Size(labelheight * 9, labelheight);
@@ -70,7 +70,7 @@ namespace NotationPlus
 
             Label label = new Label();
             label.Parent = dialog;
-            label.Text = "Start Measure";
+            label.Text = "开始步长";
             label.Location = new Point(xpos, ypos);
             label.Size = new Size(labelheight * 3, labelheight);
 
@@ -89,7 +89,7 @@ namespace NotationPlus
 
             label = new Label();
             label.Parent = dialog;
-            label.Text = "End Measure";
+            label.Text = "结束步长";
             label.Location = new Point(xpos, ypos);
             label.Size = new Size(labelheight * 3, labelheight);
 
@@ -107,13 +107,12 @@ namespace NotationPlus
             ypos += labelheight * 3 / 2;
             Button ok = new Button();
             ok.Parent = dialog;
-            ok.Text = "OK";
+            ok.Text = "确定";
             ok.Location = new Point(xpos, ypos);
             ok.DialogResult = DialogResult.OK;
 
             dialog.Size = new Size(labelheight * 10,
                                    labelheight * 8);
-
         }
 
 
@@ -154,8 +153,5 @@ namespace NotationPlus
         {
             dialog.Dispose();
         }
-
     }
-
 }
-

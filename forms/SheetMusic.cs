@@ -189,7 +189,7 @@ namespace NotationPlus
              */
             foreach (Staff staff in staffs)
             {
-                staff.CalculateHeight();
+                staff.CalculateHeight(options.shrinkGapMode);
             }
 
             BackColor = Color.White;
@@ -1304,5 +1304,4 @@ namespace NotationPlus
         }
 
     }
-
 }

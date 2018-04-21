@@ -23,7 +23,6 @@ namespace NotationPlus
      */
     public class NoteColorDialog
     {
-
         private Color[] colors;      /** The 12 colors used for each note in the note scale */
         private Button[] buttons;    /** The 12 buttons used to select the colors. */
         private Color shadeColor;    /** The color used for shading notes during playback */
@@ -31,7 +30,6 @@ namespace NotationPlus
         private Button shadeButton;  /** The button used to select the shade color */
         private Button shade2Button; /** The button used to select the shade2 color */
         private Form dialog;         /** The dialog box */
-
 
         /** Create a new NoteColorDialog.  Call the ShowDialog() method
          * to display the dialog.
@@ -48,7 +46,7 @@ namespace NotationPlus
             int labelheight = unit * 3 / 2;
             int maxwidth = 0;
 
-            dialog.Text = "Choose Note Colors";
+            dialog.Text = "选择音符颜色";
             dialog.MaximizeBox = false;
             dialog.MinimizeBox = false;
             dialog.ShowInTaskbar = false;
@@ -166,13 +164,13 @@ namespace NotationPlus
             xstart = unit * 2;
             Button ok = new Button();
             ok.Parent = dialog;
-            ok.Text = "OK";
+            ok.Text = "确定";
             ok.Location = new Point(xstart, 9 * labelheight + ystart);
             ok.DialogResult = DialogResult.OK;
 
             Button cancel = new Button();
             cancel.Parent = dialog;
-            cancel.Text = "Cancel";
+            cancel.Text = "取消";
             cancel.Location = new Point(xstart + ok.Width + unit, 9 * labelheight + ystart);
             cancel.DialogResult = DialogResult.Cancel;
 
@@ -264,8 +262,6 @@ namespace NotationPlus
         {
             get { return shade2Color; }
         }
-
     }
-
 }
 

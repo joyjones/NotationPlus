@@ -139,7 +139,7 @@ namespace NotationPlus
          * number of pixels it needs above and below the staff.  Get the maximum
          * values above and below the staff.
          */
-        public void CalculateHeight()
+        public void CalculateHeight(bool shrinkMode = false)
         {
             int above = 0;
             int below = 0;
@@ -149,10 +149,20 @@ namespace NotationPlus
                 above = Math.Max(above, s.AboveStaff);
                 below = Math.Max(below, s.BelowStaff);
             }
-            above = Math.Max(above, clefsym.AboveStaff);
-            below = Math.Max(below, clefsym.BelowStaff);
-            ytop = above + SheetMusic.NoteHeight;
-            height = SheetMusic.NoteHeight * 5 + ytop + below;
+            if (shrinkMode)
+            {
+                above = tracknum == 0 ? Math.Max(above, clefsym.AboveStaff) : 0;
+                below = 0;
+                ytop = above + SheetMusic.NoteHeight;
+                height = above + SheetMusic.NoteHeight * 7;
+            }
+            else
+            {
+                above = Math.Max(above, clefsym.AboveStaff);
+                below = Math.Max(below, clefsym.BelowStaff);
+                ytop = above + SheetMusic.NoteHeight;
+                height = SheetMusic.NoteHeight * 5 + ytop + below;
+            }
             if (showMeasures || lyrics != null)
             {
                 height += SheetMusic.NoteHeight * 3 / 2;

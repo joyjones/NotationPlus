@@ -172,6 +172,8 @@ namespace NotationPlus
         MenuItem scrollVertMenu;
         MenuItem largeNotesMenu;
         MenuItem smallNotesMenu;
+        MenuItem standardGapModeMenu;
+        MenuItem shrinkGapModeMenu;
         MenuItem notesMenu;
         MenuItem showLettersMenu;
         MenuItem showLyricsMenu;
@@ -198,8 +200,7 @@ namespace NotationPlus
          */
         public SheetMusicWindow()
         {
-
-            Text = "Midi Sheet Music";
+            Text = "NotationPlus";
             Icon = Resources.NotePairIcon;// new Icon(GetType(), "NotePair.ico");
             BackColor = Color.Gray;
             Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
@@ -209,14 +210,7 @@ namespace NotationPlus
             DisableMenus();
             AutoScroll = false;
 
-            if (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width >= 1200)
-            {
-                zoom = 1.5f;
-            }
-            else
-            {
-                zoom = 1.0f;
-            }
+            zoom = 1.0f;
 
             /* Create the player panel */
             player = new MidiPlayer();
@@ -242,7 +236,7 @@ namespace NotationPlus
 
             selectMidi = new Label();
             selectMidi.Font = new Font("Arial", 16, FontStyle.Bold);
-            selectMidi.Text = "Use the menu File:Open to select a MIDI file";
+            selectMidi.Text = "请在菜单中打开一个midi文件";
             selectMidi.Dock = DockStyle.Fill;
             selectMidi.TextAlign = ContentAlignment.TopCenter;
             selectMidi.Parent = scrollView;
@@ -288,6 +282,7 @@ namespace NotationPlus
             }
             options.scrollVert = scrollVertMenu.Checked;
             options.largeNoteSize = largeNotesMenu.Checked;
+            options.shrinkGapMode = shrinkGapModeMenu.Checked;
             options.twoStaffs = twoStaffMenu.Checked;
             options.showNoteLetters = MidiOptions.NoteNameNone;
             for (int i = 0; i < 6; i++)
@@ -465,8 +460,8 @@ namespace NotationPlus
             CreateViewMenu();
             CreateColorMenu();
 
-            trackMenu = new MenuItem("&Tracks");
-            notesMenu = new MenuItem("&Notes");
+            trackMenu = new MenuItem("音轨(&T)");
+            notesMenu = new MenuItem("音符(&N)");
             Menu.MenuItems.Add(trackMenu);
             Menu.MenuItems.Add(notesMenu);
 
@@ -476,30 +471,30 @@ namespace NotationPlus
         /** Create the File menu */
         void CreateFileMenu()
         {
-            MenuItem filemenu = new MenuItem("&File");
-            openMenu = new MenuItem("&Open...",
+            MenuItem filemenu = new MenuItem("文件(&F)");
+            openMenu = new MenuItem("打开(&O)...",
                                  new EventHandler(Open),
                                  Shortcut.CtrlO);
 
-            openSampleSongMenu = new MenuItem("&Open Sample Song...",
+            openSampleSongMenu = new MenuItem("打开示例文件...",
                                  new EventHandler(OpenSampleSong));
 
-            closeMenu = new MenuItem("&Close",
+            closeMenu = new MenuItem("关闭(&X)",
                                  new EventHandler(Close),
                                  Shortcut.CtrlC);
 
-            saveMenu = new MenuItem("&Save As Images...",
+            saveMenu = new MenuItem("保存为图片(&I)...",
                                  new EventHandler(SaveImages),
                                  Shortcut.CtrlS);
 
-            previewMenu = new MenuItem("Print Pre&view...",
+            previewMenu = new MenuItem("打印预览...",
                                    new EventHandler(PrintPreview));
 
-            printMenu = new MenuItem("&Print...",
+            printMenu = new MenuItem("打印...",
                                  new EventHandler(Print),
                                  Shortcut.CtrlP);
 
-            exitMenu = new MenuItem("E&xit", new EventHandler(Exit));
+            exitMenu = new MenuItem("退出(&Q)", new EventHandler(Exit));
 
             filemenu.MenuItems.Add(openMenu);
             filemenu.MenuItems.Add(openSampleSongMenu);
@@ -517,19 +512,19 @@ namespace NotationPlus
         /** Create the View menu */
         void CreateViewMenu()
         {
-            viewMenu = new MenuItem("&View");
-            MenuItem zoomin = new MenuItem("Zoom In", new EventHandler(ZoomIn), Shortcut.CtrlZ);
-            MenuItem zoomout = new MenuItem("Zoom Out", new EventHandler(ZoomOut), Shortcut.CtrlX);
-            MenuItem zoom100 = new MenuItem("Zoom to 100%", new EventHandler(Zoom100));
-            MenuItem zoom150 = new MenuItem("Zoom to 150%", new EventHandler(Zoom150));
+            viewMenu = new MenuItem("视图(&V)");
+            MenuItem zoomin = new MenuItem("放大", new EventHandler(ZoomIn), Shortcut.CtrlZ);
+            MenuItem zoomout = new MenuItem("缩小", new EventHandler(ZoomOut), Shortcut.CtrlX);
+            MenuItem zoom100 = new MenuItem("缩放至100%", new EventHandler(Zoom100));
+            MenuItem zoom150 = new MenuItem("缩放至150%", new EventHandler(Zoom150));
             viewMenu.MenuItems.Add(zoomin);
             viewMenu.MenuItems.Add(zoomout);
             viewMenu.MenuItems.Add(zoom100);
             viewMenu.MenuItems.Add(zoom150);
             viewMenu.MenuItems.Add("-");
 
-            scrollVertMenu = new MenuItem("Scroll &Vertically", new EventHandler(ScrollVertically));
-            scrollHorizMenu = new MenuItem("Scroll &Horizontally", new EventHandler(ScrollHorizontally));
+            scrollVertMenu = new MenuItem("纵向视图", new EventHandler(ScrollVertically));
+            scrollHorizMenu = new MenuItem("横向视图", new EventHandler(ScrollHorizontally));
             scrollVertMenu.RadioCheck = true;
             scrollVertMenu.Checked = true;
             scrollHorizMenu.RadioCheck = true;
@@ -538,24 +533,34 @@ namespace NotationPlus
             viewMenu.MenuItems.Add(scrollHorizMenu);
             viewMenu.MenuItems.Add("-");
 
-            smallNotesMenu = new MenuItem("&Small Notes", new EventHandler(SmallNotes));
-            largeNotesMenu = new MenuItem("&Large Notes", new EventHandler(LargeNotes));
+            smallNotesMenu = new MenuItem("音符较小", new EventHandler(SmallNotes));
+            largeNotesMenu = new MenuItem("音符较大", new EventHandler(LargeNotes));
             smallNotesMenu.RadioCheck = true;
-            smallNotesMenu.Checked = true;
+            smallNotesMenu.Checked = false;
             largeNotesMenu.RadioCheck = true;
-            largeNotesMenu.Checked = false;
+            largeNotesMenu.Checked = true;
             viewMenu.MenuItems.Add(smallNotesMenu);
             viewMenu.MenuItems.Add(largeNotesMenu);
+            viewMenu.MenuItems.Add("-");
+
+            standardGapModeMenu = new MenuItem("默认间距模式", new EventHandler(StandardGapMode));
+            shrinkGapModeMenu = new MenuItem("固定三间间距模式", new EventHandler(ShrinkGapMode));
+            standardGapModeMenu.RadioCheck = true;
+            standardGapModeMenu.Checked = false;
+            shrinkGapModeMenu.RadioCheck = true;
+            shrinkGapModeMenu.Checked = true;
+            viewMenu.MenuItems.Add(standardGapModeMenu);
+            viewMenu.MenuItems.Add(shrinkGapModeMenu);
             Menu.MenuItems.Add(viewMenu);
         }
 
         /** Create the Color menu */
         void CreateColorMenu()
         {
-            colorMenu = new MenuItem("&Color");
-            useColorMenu = new MenuItem("&Use Color", new EventHandler(UseColor));
+            colorMenu = new MenuItem("颜色(&C)");
+            useColorMenu = new MenuItem("启用符头颜色", new EventHandler(UseColor));
             useColorMenu.Checked = false;
-            chooseColorMenu = new MenuItem("&Choose Colors...", new EventHandler(ChooseColor));
+            chooseColorMenu = new MenuItem("选择颜色...", new EventHandler(ChooseColor));
             colorMenu.MenuItems.Add(useColorMenu);
             colorMenu.MenuItems.Add(chooseColorMenu);
             Menu.MenuItems.Add(colorMenu);
@@ -566,14 +571,14 @@ namespace NotationPlus
         void CreateTrackDisplayMenu()
         {
             MenuItem menu;
-            trackDisplayMenu = new MenuItem("Select Tracks to Display");
+            trackDisplayMenu = new MenuItem("显示选择的音轨");
             trackMenu.MenuItems.Add(trackDisplayMenu);
 
-            menu = new MenuItem("Select All Tracks", new EventHandler(SelectAllTracks));
+            menu = new MenuItem("选择所有音轨", new EventHandler(SelectAllTracks));
             menu.Enabled = true;
             trackDisplayMenu.MenuItems.Add(menu);
 
-            menu = new MenuItem("Deselect All Tracks", new EventHandler(DeselectAllTracks));
+            menu = new MenuItem("取消选择所有音轨", new EventHandler(DeselectAllTracks));
             menu.Enabled = true;
             trackDisplayMenu.MenuItems.Add(menu);
 
@@ -585,7 +590,7 @@ namespace NotationPlus
                 {
                     name = "   (" + name + ")";
                 }
-                menu = new MenuItem("Track " + num + name,
+                menu = new MenuItem("音轨 " + num + name,
                                   new EventHandler(TrackSelect));
                 menu.Checked = true;
                 if (midifile.Tracks[i].InstrumentName == "Percussion")
@@ -601,14 +606,14 @@ namespace NotationPlus
         void CreateTrackMuteMenu()
         {
             MenuItem menu;
-            trackMuteMenu = new MenuItem("Select Tracks to Mute");
+            trackMuteMenu = new MenuItem("静音选择的音轨");
             trackMenu.MenuItems.Add(trackMuteMenu);
 
-            menu = new MenuItem("Mute All Tracks", new EventHandler(MuteAllTracks));
+            menu = new MenuItem("静音所有音轨", new EventHandler(MuteAllTracks));
             menu.Enabled = true;
             trackMuteMenu.MenuItems.Add(menu);
 
-            menu = new MenuItem("Unmute All Tracks", new EventHandler(UnmuteAllTracks));
+            menu = new MenuItem("取消静音所有音轨", new EventHandler(UnmuteAllTracks));
             menu.Enabled = true;
             trackMuteMenu.MenuItems.Add(menu);
 
@@ -620,7 +625,7 @@ namespace NotationPlus
                 {
                     name = "   (" + name + ")";
                 }
-                menu = new MenuItem("Track " + num + name,
+                menu = new MenuItem("音轨 " + num + name,
                                   new EventHandler(TrackMute));
                 menu.Checked = false;
                 if (midifile.Tracks[i].InstrumentName == "Percussion")
@@ -647,18 +652,18 @@ namespace NotationPlus
             CreateTrackDisplayMenu();
             CreateTrackMuteMenu();
             trackMenu.MenuItems.Add("-");
-            oneStaffMenu = new MenuItem("Show One Staff Per Track",
+            oneStaffMenu = new MenuItem("每音轨分配到每行谱",
                                         new EventHandler(UseOneStaff));
             if (midifile.Tracks.Count == 1)
             {
-                twoStaffMenu = new MenuItem("Split Track Into Two Staffs",
+                twoStaffMenu = new MenuItem("分解音轨到双行谱",
                                             new EventHandler(UseTwoStaffs));
                 oneStaffMenu.Checked = false;
                 twoStaffMenu.Checked = true;
             }
             else
             {
-                twoStaffMenu = new MenuItem("Combine All Tracks Into Two Staffs",
+                twoStaffMenu = new MenuItem("合并所有音轨到双行谱",
                                             new EventHandler(UseTwoStaffs));
                 oneStaffMenu.Checked = true;
                 twoStaffMenu.Checked = false;
@@ -668,8 +673,7 @@ namespace NotationPlus
             trackMenu.MenuItems.Add(oneStaffMenu);
             trackMenu.MenuItems.Add(twoStaffMenu);
             trackMenu.MenuItems.Add("-");
-            chooseInstrumentsMenu = new MenuItem("Choose Instruments...",
-                                                 new EventHandler(ChooseInstruments));
+            chooseInstrumentsMenu = new MenuItem("选择乐器...", new EventHandler(ChooseInstruments));
             trackMenu.MenuItems.Add(chooseInstrumentsMenu);
         }
 
@@ -692,34 +696,34 @@ namespace NotationPlus
         void CreateShowLettersMenu()
         {
             MenuItem menu;
-            showLettersMenu = new MenuItem("Show Note Letters");
+            showLettersMenu = new MenuItem("显示音符辅助标记");
 
-            menu = new MenuItem("None", new EventHandler(ShowNoteLetters));
+            menu = new MenuItem("无", new EventHandler(ShowNoteLetters));
             menu.Checked = true;
             menu.Tag = 0;
             showLettersMenu.MenuItems.Add(menu);
 
-            menu = new MenuItem("Letters", new EventHandler(ShowNoteLetters));
+            menu = new MenuItem("默认标记", new EventHandler(ShowNoteLetters));
             menu.Checked = false;
             menu.Tag = MidiOptions.NoteNameLetter;
             showLettersMenu.MenuItems.Add(menu);
 
-            menu = new MenuItem("Fixed Do-Re-Mi", new EventHandler(ShowNoteLetters));
+            menu = new MenuItem("固定Do-Re-Mi", new EventHandler(ShowNoteLetters));
             menu.Checked = false;
             menu.Tag = MidiOptions.NoteNameFixedDoReMi;
             showLettersMenu.MenuItems.Add(menu);
 
-            menu = new MenuItem("Movable Do-Re-Mi", new EventHandler(ShowNoteLetters));
+            menu = new MenuItem("变换的Do-Re-Mi", new EventHandler(ShowNoteLetters));
             menu.Checked = false;
             menu.Tag = MidiOptions.NoteNameMovableDoReMi;
             showLettersMenu.MenuItems.Add(menu);
 
-            menu = new MenuItem("Fixed Numbers", new EventHandler(ShowNoteLetters));
+            menu = new MenuItem("固定数字", new EventHandler(ShowNoteLetters));
             menu.Checked = false;
             menu.Tag = MidiOptions.NoteNameFixedNumber;
             showLettersMenu.MenuItems.Add(menu);
 
-            menu = new MenuItem("Movable Numbers", new EventHandler(ShowNoteLetters));
+            menu = new MenuItem("变换的数字", new EventHandler(ShowNoteLetters));
             menu.Checked = false;
             menu.Tag = MidiOptions.NoteNameMovableNumber;
             showLettersMenu.MenuItems.Add(menu);
@@ -735,7 +739,7 @@ namespace NotationPlus
                 showLyricsMenu = null;
                 return;
             }
-            showLyricsMenu = new MenuItem("Show Lyrics",
+            showLyricsMenu = new MenuItem("显示歌词",
                                            new EventHandler(ShowLyrics));
 
             showLyricsMenu.Checked = true;
@@ -745,7 +749,7 @@ namespace NotationPlus
         /** Create the "Show Measure Numbers" sub-menu. */
         void CreateShowMeasuresMenu()
         {
-            showMeasuresMenu = new MenuItem("Show Measure Numbers",
+            showMeasuresMenu = new MenuItem("显示测量数字",
                                            new EventHandler(ShowMeasures));
 
             showMeasuresMenu.Checked = false;
@@ -762,10 +766,10 @@ namespace NotationPlus
             MenuItem menu;
             KeySignature key;
 
-            changeKeyMenu = new MenuItem("&Key Signature");
+            changeKeyMenu = new MenuItem("谱号");
 
             /* Add the default key signature */
-            menu = new MenuItem("Default", new EventHandler(ChangeKeySignature));
+            menu = new MenuItem("默认", new EventHandler(ChangeKeySignature));
             menu.Checked = true;
             menu.RadioCheck = true;
             menu.Tag = 0;
@@ -804,17 +808,17 @@ namespace NotationPlus
         {
             MenuItem menu;
 
-            transposeMenu = new MenuItem("&Transpose");
+            transposeMenu = new MenuItem("移调");
             int[] amounts = new int[] { 12, 6, 5, 4, 3, 2, 1, 0,
                                    -1, -2, -3, -4, -5, -6, -12 };
 
             foreach (int amount in amounts)
             {
-                string name = "none";
+                string name = "无";
                 if (amount > 0)
-                    name = "Up " + amount;
+                    name = "升高 " + amount;
                 else if (amount < 0)
-                    name = "Down " + (-amount);
+                    name = "降低 " + (-amount);
                 menu = new MenuItem(name, new EventHandler(Transpose));
                 menu.RadioCheck = true;
                 if (amount == 0)
@@ -836,7 +840,7 @@ namespace NotationPlus
         void CreateShiftNoteMenu()
         {
             MenuItem menu;
-            shiftNotesMenu = new MenuItem("&Shift Notes");
+            shiftNotesMenu = new MenuItem("音符偏移");
             menu = new MenuItem("Left to start", new EventHandler(ShiftTime));
             menu.RadioCheck = true;
             menu.Checked = false;
@@ -851,8 +855,8 @@ namespace NotationPlus
             }
             menu.Tag = -firsttime;
             string[] labels = new string[] {
-            "none (default)", "Right 1/8 note", "Right 1/4 note", "Right 3/8 note",
-            "Right 1/2 note", "Right 5/8 note", "Right 3/4 note", "Right 7/8 note"
+            "无 (默认)", "向右 1/8 音符", "向右 1/4 音符", "向右 3/8 音符",
+            "向右 1/2 音符", "向右 5/8 音符", "向右 3/4 音符", "向右 7/8 音符"
         };
             for (int i = 0; i < 8; i++)
             {
@@ -875,8 +879,8 @@ namespace NotationPlus
         void CreateMeasureLengthMenu()
         {
             MenuItem menu;
-            measureMenu = new MenuItem("&Measure Length");
-            menu = new MenuItem(midifile.Time.Measure + " pulses (default)",
+            measureMenu = new MenuItem("度量步长");
+            menu = new MenuItem(midifile.Time.Measure + " pulses (默认)",
                              new EventHandler(MeasureLength));
             menu.RadioCheck = true;
             menu.Checked = true;
@@ -902,7 +906,7 @@ namespace NotationPlus
         void CreateTimeSignatureMenu()
         {
             MenuItem menu;
-            timeSigMenu = new MenuItem("T&ime Signature");
+            timeSigMenu = new MenuItem("拍号");
             menu = new MenuItem("3/4", new EventHandler(ChangeTimeSignature));
             menu.RadioCheck = true;
             menu.Checked = false;
@@ -913,18 +917,18 @@ namespace NotationPlus
             timeSigMenu.MenuItems.Add(menu);
             if (midifile.Time.Numerator == 3 && midifile.Time.Denominator == 4)
             {
-                timeSigMenu.MenuItems[0].Text += " (default)";
+                timeSigMenu.MenuItems[0].Text += " (默认)";
                 timeSigMenu.MenuItems[0].Checked = true;
             }
             else if (midifile.Time.Numerator == 4 && midifile.Time.Denominator == 4)
             {
-                timeSigMenu.MenuItems[1].Text += " (default)";
+                timeSigMenu.MenuItems[1].Text += " (默认)";
                 timeSigMenu.MenuItems[1].Checked = true;
             }
             else
             {
                 string name = midifile.Time.Numerator + "/" +
-                              midifile.Time.Denominator + " (default)";
+                              midifile.Time.Denominator + " (默认)";
                 timeSigMenu.MenuItems.Add(
                   new MenuItem(name, new EventHandler(ChangeTimeSignature))
                 );
@@ -942,17 +946,17 @@ namespace NotationPlus
         void CreateCombineNotesMenu()
         {
             MenuItem menu;
-            combineNotesMenu = new MenuItem("&Combine Notes Within Interval");
+            combineNotesMenu = new MenuItem("间隔内合并音符");
             for (int millisec = 20; millisec <= 100; millisec += 20)
             {
                 if (millisec == 40)
                 {
-                    menu = new MenuItem(millisec + " milliseconds (default)", new EventHandler(CombineNotes));
+                    menu = new MenuItem(millisec + " 毫秒 (默认)", new EventHandler(CombineNotes));
                     menu.Checked = true;
                 }
                 else
                 {
-                    menu = new MenuItem(millisec + " milliseconds", new EventHandler(CombineNotes));
+                    menu = new MenuItem(millisec + " 毫秒", new EventHandler(CombineNotes));
                     menu.Checked = false;
                 }
                 menu.RadioCheck = true;
@@ -967,7 +971,7 @@ namespace NotationPlus
          */
         void CreatePlayMeasuresMenu()
         {
-            playMeasuresMenu = new MenuItem("Play Measures in a Loop...",
+            playMeasuresMenu = new MenuItem("循环内播放步长...",
                                                      new EventHandler(PlayMeasuresInLoop));
             playMeasuresMenu.Checked = false;
             notesMenu.MenuItems.Add(playMeasuresMenu);
@@ -977,13 +981,11 @@ namespace NotationPlus
         /** Create the Help menu */
         void CreateHelpMenu()
         {
-            MenuItem helpmenu = new MenuItem("&Help");
-            MenuItem about = new MenuItem("&About...",
-                                         new EventHandler(About));
-            MenuItem contents = new MenuItem("&Help Contents...",
-                                             new EventHandler(Help));
+            MenuItem helpmenu = new MenuItem("帮助(&H)");
+            MenuItem about = new MenuItem("关于...", new EventHandler(About));
+            //MenuItem contents = new MenuItem("帮助内容...", new EventHandler(Help));
             helpmenu.MenuItems.Add(about);
-            helpmenu.MenuItems.Add(contents);
+            //helpmenu.MenuItems.Add(contents);
             Menu.MenuItems.Add(helpmenu);
         }
 
@@ -1006,7 +1008,7 @@ namespace NotationPlus
         void Open(object obj, EventArgs args)
         {
             OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "Midi Files (*.mid)|*.mid*|All Files (*.*)|*.*";
+            dialog.Filter = "Midi文件(*.mid)|*.mid*|所有文件(*.*)|*.*";
             dialog.FilterIndex = 1;
             dialog.RestoreDirectory = false;
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -1049,8 +1051,8 @@ namespace NotationPlus
                 }
                 catch (IOException e)
                 {
-                    string message = "NotationPlus was unable to open the sample song: " + name;
-                    MessageBox.Show(message, "Error Opening File",
+                    string message = "NotationPlus 未能打开示例曲目: " + name;
+                    MessageBox.Show(message, "打开文件失败",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -1076,7 +1078,7 @@ namespace NotationPlus
                 string displayName = Path.GetFileName(filename);
                 displayName = displayName.Replace("__", ": ");
                 displayName = displayName.Replace("_", " ");
-                Text = displayName + " - Midi Sheet Music";
+                Text = displayName + " - NotationPlus";
                 instrumentDialog = new InstrumentDialog(midifile);
                 playMeasuresDialog = new PlayMeasuresDialog(midifile);
                 RedrawSheetMusic();
@@ -1085,11 +1087,11 @@ namespace NotationPlus
             {
                 filename = Path.GetFileName(filename);
                 string message = "";
-                message += "NotationPlus was unable to open the file "
+                message += "NotationPlus未能打开文件"
                            + filename;
-                message += "\nIt does not appear to be a valid midi file.\n" + e.Message;
+                message += "\n该文件可能不是有效的midi文件.\n" + e.Message;
 
-                MessageBox.Show(message, "Error Opening File",
+                MessageBox.Show(message, "打开文件失败",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                 midifile = null;
                 DisableMenus();
@@ -1098,11 +1100,11 @@ namespace NotationPlus
             {
                 filename = Path.GetFileName(filename);
                 string message = "";
-                message += "NotationPlus was unable to open the file "
+                message += "NotationPlus未能打开文件"
                            + filename;
-                message += "because:\n" + e.Message + "\n";
+                message += "原因:\n" + e.Message + "\n";
 
-                MessageBox.Show(message, "Error Opening File",
+                MessageBox.Show(message, "打开文件失败",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 midifile = null;
@@ -1127,7 +1129,7 @@ namespace NotationPlus
             DisableMenus();
             BackColor = Color.Gray;
             scrollView.BackColor = Color.Gray;
-            Text = "Midi Sheet Music";
+            Text = "NotationPlus";
             instrumentDialog.Dispose();
             playMeasuresDialog.Dispose();
         }
@@ -1159,7 +1161,7 @@ namespace NotationPlus
             dialog.CreatePrompt = false;
             dialog.OverwritePrompt = true;
             dialog.DefaultExt = "png";
-            dialog.Filter = "PNG Image Files (*.png)|*.png";
+            dialog.Filter = "PNG文件(*.png)|*.png";
 
             /* The initial filename in the dialog will be <midi filename>.png */
             string initname = midifile.FileName;
@@ -1190,11 +1192,11 @@ namespace NotationPlus
                 catch (System.IO.IOException e)
                 {
                     string message = "";
-                    message += "NotationPlus was unable to save to file " +
+                    message += "NotationPlus保存文件失败" +
                                 filename + ".png";
                     message += " because:\n" + e.Message + "\n";
 
-                    MessageBox.Show(message, "Error Saving File",
+                    MessageBox.Show(message, "保存失败",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
@@ -1482,6 +1484,24 @@ namespace NotationPlus
             RedrawSheetMusic();
         }
 
+        void StandardGapMode(object obj, EventArgs args)
+        {
+            if (standardGapModeMenu.Checked)
+                return;
+            shrinkGapModeMenu.Checked = false;
+            standardGapModeMenu.Checked = true;
+            RedrawSheetMusic();
+        }
+
+        void ShrinkGapMode(object obj, EventArgs args)
+        {
+            if (shrinkGapModeMenu.Checked)
+                return;
+            standardGapModeMenu.Checked = false;
+            shrinkGapModeMenu.Checked = true;
+            RedrawSheetMusic();
+        }
+
         /** The callback function for the "Show Note Letters" menu. */
         void ShowNoteLetters(object obj, EventArgs args)
         {
@@ -1660,7 +1680,7 @@ namespace NotationPlus
         void About(object obj, EventArgs args)
         {
             Form dialog = new Form();
-            dialog.Text = "About Midi Sheet Music";
+            dialog.Text = "关于NotationPlus";
             dialog.FormBorderStyle = FormBorderStyle.FixedDialog;
             dialog.MaximizeBox = false;
             dialog.MinimizeBox = false;
@@ -1675,7 +1695,7 @@ namespace NotationPlus
             box.Height = icon.Height;
 
             Label name = new Label();
-            name.Text = "Midi Sheet Music";
+            name.Text = "NotationPlus";
             name.Parent = dialog;
             name.Font = new Font("Arial", 16, FontStyle.Bold);
             name.Location = new Point(box.Location.X + box.Width +
@@ -1684,7 +1704,7 @@ namespace NotationPlus
             name.AutoSize = true;
 
             Label label = new Label();
-            label.Text = "Version 2.4\nCopyright 2007-2012 Madhav Vaidyanathan\nhttp://midisheetmusic.sourceforge.net/";
+            label.Text = "Version 1.0\nCopyright 2018 JoyJones";
             label.Parent = dialog;
             int y = Math.Max(box.Location.Y + box.Height,
                              name.Location.Y + name.Height);
@@ -1696,7 +1716,7 @@ namespace NotationPlus
                                 label.Font.Height * 2;
 
             Button ok = new Button();
-            ok.Text = "OK";
+            ok.Text = "确定";
             ok.Parent = dialog;
             ok.DialogResult = DialogResult.OK;
             ok.Width = ok.Font.Height * 3;
@@ -1717,7 +1737,7 @@ namespace NotationPlus
         {
             Form dialog = new Form();
             dialog.Icon = Resources.NotePairIcon;// new Icon(GetType(), "NotePair.ico");
-            dialog.Text = "Midi Sheet Music Help Contents";
+            dialog.Text = "NotationPlus 帮助内容";
             RichTextBox box = new RichTextBox();
 
             Assembly assembly = this.GetType().Assembly;

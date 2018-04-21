@@ -40,6 +40,7 @@ namespace NotationPlus
         public bool[] tracks;         /** Which tracks to display (true = display) */
         public bool scrollVert;       /** Whether to scroll vertically or horizontally */
         public bool largeNoteSize;    /** Display large or small note sizes */
+        public bool shrinkGapMode;    /** Display shrinking staffs */
         public bool twoStaffs;        /** Combine tracks into two staffs ? */
         public int showNoteLetters;     /** Show the name (A, A#, etc) next to the notes */
         public bool showLyrics;       /** Show the lyrics under each note */
@@ -81,7 +82,7 @@ namespace NotationPlus
             }
             useDefaultInstruments = true;
             scrollVert = true;
-            largeNoteSize = false;
+            largeNoteSize = true;
             if (tracks.Length == 1)
             {
                 twoStaffs = true;

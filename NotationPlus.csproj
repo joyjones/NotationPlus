@@ -10,8 +10,7 @@
     <RootNamespace>NotationPlus</RootNamespace>
     <AssemblyName>NotationPlus</AssemblyName>
     <StartupObject>NotationPlus.NotationPlus</StartupObject>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>NotePair.ico</ApplicationIcon>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -52,7 +51,7 @@
     <Compile Include="ChordSymbol.cs" />
     <Compile Include="ClefMeasures.cs" />
     <Compile Include="ClefSymbol.cs" />
-    <Compile Include="InstrumentDialog.cs" />
+    <Compile Include="forms\InstrumentDialog.cs" />
     <Compile Include="KeySignature.cs" />
     <Compile Include="LyricSymbol.cs" />
     <Compile Include="MidiEvent.cs" />
@@ -67,11 +66,11 @@
     <Compile Include="MidiTrack.cs" />
     <Compile Include="MidiSheetMusic.cs" />
     <Compile Include="MusicSymbol.cs" />
-    <Compile Include="NoteColorDialog.cs" />
+    <Compile Include="forms\NoteColorDialog.cs" />
     <Compile Include="forms\Piano.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="PlayMeasuresDialog.cs" />
+    <Compile Include="forms\PlayMeasuresDialog.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -215,6 +214,9 @@
     <EmbeddedResource Include="songs\Tchaikovsky__Nutcracker_-_Waltz_of_the_Flowers.mid" />
     <EmbeddedResource Include="songs\Tchaikovsky__Swan_Lake.mid" />
     <EmbeddedResource Include="songs\Verdi__La_Donna_e_Mobile.mid" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NotePair.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

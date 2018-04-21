@@ -39,7 +39,7 @@ namespace NotationPlus
         {
 
             /* Create the dialog box */
-            Text = "Choose a Sample MIDI Song";
+            Text = "选择示例曲目";
             MaximizeBox = true;
             MinimizeBox = false;
             ShowInTaskbar = false;
@@ -151,13 +151,13 @@ namespace NotationPlus
             /* Create the OK and Cancel buttons */
             ok = new Button();
             ok.Parent = this;
-            ok.Text = "OK";
+            ok.Text = "确定";
             ok.Location = new Point(ClientSize.Width - labelheight * 3, labelheight);
             ok.DialogResult = DialogResult.OK;
 
             cancel = new Button();
             cancel.Parent = this;
-            cancel.Text = "Cancel";
+            cancel.Text = "取消";
             cancel.Location = new Point(ClientSize.Width - labelheight * 3,
                                         labelheight * 2 + labelheight / 4);
             cancel.DialogResult = DialogResult.Cancel;

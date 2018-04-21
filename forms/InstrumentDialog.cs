@@ -44,7 +44,7 @@ namespace NotationPlus
             int labelheight = unit * 2;
             int maxwidth = 0;
 
-            dialog.Text = "Choose Instruments For Each Track";
+            dialog.Text = "请选择各音轨乐器";
             dialog.MaximizeBox = false;
             dialog.MinimizeBox = false;
             dialog.ShowInTaskbar = false;
@@ -64,7 +64,7 @@ namespace NotationPlus
                 int num = i + 1;
                 Label label = new Label();
                 label.Parent = dialog;
-                label.Text = "Track " + num;
+                label.Text = "音轨 " + num;
                 label.TextAlign = ContentAlignment.MiddleRight;
                 label.Location = new Point(xstart, ystart + i * labelheight);
                 label.AutoSize = true;
@@ -83,7 +83,7 @@ namespace NotationPlus
                     string name = MidiFile.Instruments[instr];
                     if (tracks[i].Instrument == instr)
                     {
-                        name += " (default)";
+                        name += " (默认)";
                     }
                     instrumentChoices[i].Items.Add(name);
                 }
@@ -93,7 +93,7 @@ namespace NotationPlus
             /* Create the "Set All To Piano" button */
             Button allPiano = new Button();
             allPiano.Parent = dialog;
-            allPiano.Text = "Set All To Piano";
+            allPiano.Text = "所有设置为Piano";
             allPiano.Location = new Point(xstart + maxwidth * 3 / 2,
                                           ystart + tracks.Count * labelheight);
             allPiano.Click += new EventHandler(SetAllPiano);
@@ -103,13 +103,13 @@ namespace NotationPlus
             int ypos = ystart + (tracks.Count + 3) * labelheight;
             Button ok = new Button();
             ok.Parent = dialog;
-            ok.Text = "OK";
+            ok.Text = "确定";
             ok.Location = new Point(xstart, ypos);
             ok.DialogResult = DialogResult.OK;
 
             Button cancel = new Button();
             cancel.Parent = dialog;
-            cancel.Text = "Cancel";
+            cancel.Text = "取消";
             cancel.Location = new Point(ok.Location.X + ok.Width + labelheight / 2, ypos);
             cancel.DialogResult = DialogResult.Cancel;
 
@@ -185,7 +185,7 @@ namespace NotationPlus
                     instrumentChoices[i].SelectedIndex = 0;
                 }
                 string name = (string)instrumentChoices[i].SelectedItem;
-                if (!name.Contains("default"))
+                if (!name.Contains("默认"))
                 {
                     result = false;
                 }
