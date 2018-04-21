@@ -1,0 +1,124 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="15.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4617E422-CE13-41B9-A542-5DAF12203E08}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NotationPlus</RootNamespace>
+    <AssemblyName>NotationPlusLib</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccidSymbol.cs" />
+    <Compile Include="BarSymbol.cs" />
+    <Compile Include="BlankSymbol.cs" />
+    <Compile Include="ChordSymbol.cs" />
+    <Compile Include="ClefMeasures.cs" />
+    <Compile Include="ClefSymbol.cs" />
+    <Compile Include="KeySignature.cs" />
+    <Compile Include="LyricSymbol.cs" />
+    <Compile Include="MidiEvent.cs" />
+    <Compile Include="MidiFile.cs" />
+    <Compile Include="MidiFileException.cs" />
+    <Compile Include="MidiFileReader.cs" />
+    <Compile Include="MidiNote.cs" />
+    <Compile Include="MidiOptions.cs" />
+    <Compile Include="MidiTrack.cs" />
+    <Compile Include="MusicSymbol.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="RestSymbol.cs" />
+    <Compile Include="SheetMusic.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Staff.cs" />
+    <Compile Include="Stem.cs" />
+    <Compile Include="SymbolWidths.cs" />
+    <Compile Include="TimeSignature.cs" />
+    <Compile Include="TimeSigSymbol.cs" />
+    <Compile Include="WhiteNote.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="images\bass.png" />
+    <Content Include="images\blue_background.png" />
+    <Content Include="images\choose_instruments.png" />
+    <Content Include="images\choose_tracks.png" />
+    <Content Include="images\eight.png" />
+    <Content Include="images\fastforward.png" />
+    <Content Include="images\four.png" />
+    <Content Include="images\gray_background.png" />
+    <Content Include="images\linux_icon.png" />
+    <Content Include="images\logo.png" />
+    <Content Include="images\mac_icon.png" />
+    <Content Include="images\main_screenshot.png" />
+    <Content Include="images\midi_header.png" />
+    <Content Include="images\midi_logo.png" />
+    <Content Include="images\midi_player.png" />
+    <Content Include="images\nine.png" />
+    <Content Include="images\NotePair.png" />
+    <Content Include="images\note_colors.png" />
+    <Content Include="images\note_letters.png" />
+    <Content Include="images\pause.png" />
+    <Content Include="images\piano_highlight.png" />
+    <Content Include="images\play.png" />
+    <Content Include="images\rewind.png" />
+    <Content Include="images\save_as.png" />
+    <Content Include="images\screenshot.png" />
+    <Content Include="images\sheet_highlight.png" />
+    <Content Include="images\six.png" />
+    <Content Include="images\SmallNotePair.png" />
+    <Content Include="images\split_track.png" />
+    <Content Include="images\stop.png" />
+    <Content Include="images\symbol_diagram.png" />
+    <Content Include="images\three.png" />
+    <Content Include="images\treble.png" />
+    <Content Include="images\twelve.png" />
+    <Content Include="images\two.png" />
+    <Content Include="images\volume.png" />
+    <Content Include="images\white_background.png" />
+    <Content Include="images\WindowDiagram.png" />
+    <Content Include="images\win_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
