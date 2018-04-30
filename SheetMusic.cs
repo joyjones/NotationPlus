@@ -189,7 +189,7 @@ namespace NotationPlus
              */
             foreach (Staff staff in staffs)
             {
-                staff.CalculateHeight();
+                staff.CalculateHeight(options.specificClefMode);
             }
 
             BackColor = Color.White;

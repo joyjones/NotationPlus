@@ -77,7 +77,7 @@ namespace NotationPlus
             keys = key.GetSymbols(clef);
             this.symbols = symbols;
             CalculateWidth(options.scrollVert);
-            CalculateHeight();
+            CalculateHeight(options.specificClefMode);
             CalculateStartEndTime();
             FullJustify();
         }
@@ -139,7 +139,7 @@ namespace NotationPlus
          * number of pixels it needs above and below the staff.  Get the maximum
          * values above and below the staff.
          */
-        public void CalculateHeight(bool shrinkMode = false)
+        public void CalculateHeight(bool specificClefMode, bool shrinkMode = false)
         {
             int above = 0;
             int below = 0;
@@ -149,6 +149,7 @@ namespace NotationPlus
                 above = Math.Max(above, s.AboveStaff);
                 below = Math.Max(below, s.BelowStaff);
             }
+            clefsym.SpecificBassMode = specificClefMode;
             if (shrinkMode)
             {
                 above = tracknum == 0 ? Math.Max(above, clefsym.AboveStaff) : 0;
@@ -167,7 +168,7 @@ namespace NotationPlus
             {
                 height += SheetMusic.NoteHeight * 3 / 2;
             }
-
+            
             /* Add some extra vertical space between the last track
              * and first track.
              */

@@ -11,12 +11,13 @@
     <AssemblyName>NotationPlus</AssemblyName>
     <StartupObject>NotationPlus.NotationPlus</StartupObject>
     <ApplicationIcon>NotePair.ico</ApplicationIcon>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,6 +27,7 @@
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,6 +37,7 @@
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -144,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="help\help.rtf" />
+    <None Include="app.config" />
     <None Include="images\NotePair.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +220,7 @@
     <EmbeddedResource Include="songs\Verdi__La_Donna_e_Mobile.mid" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="images\bass2.png" />
     <Content Include="NotePair.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

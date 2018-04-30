@@ -174,6 +174,7 @@ namespace NotationPlus
         MenuItem smallNotesMenu;
         MenuItem standardGapModeMenu;
         MenuItem shrinkGapModeMenu;
+        MenuItem specificClefModeMenu;
         MenuItem notesMenu;
         MenuItem showLettersMenu;
         MenuItem showLyricsMenu;
@@ -283,6 +284,7 @@ namespace NotationPlus
             options.scrollVert = scrollVertMenu.Checked;
             options.largeNoteSize = largeNotesMenu.Checked;
             options.shrinkGapMode = shrinkGapModeMenu.Checked;
+            options.specificClefMode = specificClefModeMenu.Checked;
             options.twoStaffs = twoStaffMenu.Checked;
             options.showNoteLetters = MidiOptions.NoteNameNone;
             for (int i = 0; i < 6; i++)
@@ -546,12 +548,24 @@ namespace NotationPlus
             standardGapModeMenu = new MenuItem("默认间距模式", new EventHandler(StandardGapMode));
             shrinkGapModeMenu = new MenuItem("固定三间间距模式", new EventHandler(ShrinkGapMode));
             standardGapModeMenu.RadioCheck = true;
-            standardGapModeMenu.Checked = false;
+            standardGapModeMenu.Checked = true;
             shrinkGapModeMenu.RadioCheck = true;
-            shrinkGapModeMenu.Checked = true;
+            shrinkGapModeMenu.Checked = false;
             viewMenu.MenuItems.Add(standardGapModeMenu);
             viewMenu.MenuItems.Add(shrinkGapModeMenu);
+            viewMenu.MenuItems.Add("-");
+
+            specificClefModeMenu = new MenuItem("低音G谱号模式", new EventHandler(SpecificClefModeMenu_Click));
+            specificClefModeMenu.Checked = true;
+            viewMenu.MenuItems.Add(specificClefModeMenu);
+
             Menu.MenuItems.Add(viewMenu);
+        }
+
+        private void SpecificClefModeMenu_Click(object sender, EventArgs e)
+        {
+            specificClefModeMenu.Checked = !specificClefModeMenu.Checked;
+            RedrawSheetMusic();
         }
 
         /** Create the Color menu */
@@ -1704,7 +1718,7 @@ namespace NotationPlus
             name.AutoSize = true;
 
             Label label = new Label();
-            label.Text = "Version 1.0\nCopyright 2018 JoyJones";
+            label.Text = "Version 1.1\nCopyright 2018 JoyJones";
             label.Parent = dialog;
             int y = Math.Max(box.Location.Y + box.Height,
                              name.Location.Y + name.Height);

@@ -184,12 +184,13 @@ namespace NotationPlus
                 AddLyricsToStaffs(staffs, lyrics);
             }
 
+            ChordSymbol.SpecificBassClefMode = options.specificClefMode;
             /* After making chord pairs, the stem directions can change,
              * which affects the staff height.  Re-calculate the staff height.
              */
             foreach (Staff staff in staffs)
             {
-                staff.CalculateHeight(options.shrinkGapMode);
+                staff.CalculateHeight(options.specificClefMode, options.shrinkGapMode);
             }
 
             BackColor = Color.White;

@@ -201,10 +201,12 @@ namespace NotationPlus
          * @param ytop The y location (in pixels) where the top of the staff starts.
          * @param topstaff  The note at the top of the staff.
          */
-        public void Draw(Graphics g, Pen pen, int ytop, WhiteNote topstaff)
+        public void Draw(Graphics g, Pen pen, int ytop, WhiteNote topstaff, Clef clef)
         {
             if (duration == NoteDuration.Whole)
                 return;
+            if (clef == Clef.Bass && ChordSymbol.SpecificBassClefMode)
+                ytop -= SheetMusic.NoteHeight;
 
             DrawVerticalLine(g, pen, ytop, topstaff);
             if (duration == NoteDuration.Quarter ||

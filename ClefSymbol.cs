@@ -35,6 +35,8 @@ namespace NotationPlus
     {
         private static Image treble;  /** The treble clef image */
         private static Image bass;    /** The bass clef image */
+        private static Image bass2;    /** The bass2 clef image */
+        public bool SpecificBassMode = true;
 
         private int starttime;        /** Start time of the symbol */
         private bool smallsize;       /** True if this is a small clef, false otherwise */
@@ -59,6 +61,9 @@ namespace NotationPlus
 
             if (bass == null)
                 bass = Resources.bass;// new Bitmap(typeof(ClefSymbol), "images/bass.png");
+
+            if (bass2 == null)
+                bass2 = Resources.bass2;
         }
 
         /** Get the time (in pulses) this symbol occurs at.
@@ -149,7 +154,7 @@ namespace NotationPlus
             }
             else
             {
-                image = bass;
+                image = SpecificBassMode ? bass2 : bass;
                 if (smallsize)
                 {
                     height = SheetMusic.StaffHeight - 3 * SheetMusic.NoteHeight / 2;
@@ -157,6 +162,11 @@ namespace NotationPlus
                 else
                 {
                     height = SheetMusic.StaffHeight - SheetMusic.NoteHeight;
+                }
+                if (SpecificBassMode)
+                {
+                    height *= 2;
+                    y = ytop - SheetMusic.NoteHeight;
                 }
             }
 

@@ -41,6 +41,7 @@ namespace NotationPlus
         public bool scrollVert;       /** Whether to scroll vertically or horizontally */
         public bool largeNoteSize;    /** Display large or small note sizes */
         public bool shrinkGapMode;    /** Display shrinking staffs */
+        public bool specificClefMode;
         public bool twoStaffs;        /** Combine tracks into two staffs ? */
         public int showNoteLetters;     /** Show the name (A, A#, etc) next to the notes */
         public bool showLyrics;       /** Show the lyrics under each note */
