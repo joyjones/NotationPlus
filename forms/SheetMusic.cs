@@ -184,7 +184,6 @@ namespace NotationPlus
                 AddLyricsToStaffs(staffs, lyrics);
             }
 
-            ChordSymbol.SpecificBassClefMode = options.specificClefMode;
             /* After making chord pairs, the stem directions can change,
              * which affects the staff height.  Re-calculate the staff height.
              */

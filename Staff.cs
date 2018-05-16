@@ -149,7 +149,7 @@ namespace NotationPlus
                 above = Math.Max(above, s.AboveStaff);
                 below = Math.Max(below, s.BelowStaff);
             }
-            clefsym.SpecificBassMode = specificClefMode;
+            ClefSymbol.SpecificBassMode = specificClefMode;
             if (shrinkMode)
             {
                 above = tracknum == 0 ? Math.Max(above, clefsym.AboveStaff) : 0;

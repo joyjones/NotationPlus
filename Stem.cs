@@ -205,7 +205,7 @@ namespace NotationPlus
         {
             if (duration == NoteDuration.Whole)
                 return;
-            if (clef == Clef.Bass && ChordSymbol.SpecificBassClefMode)
+            if (clef == Clef.Bass && ClefSymbol.SpecificBassMode && !ClefSymbol.OnlyChangeBassSymbol)
                 ytop -= SheetMusic.NoteHeight;
 
             DrawVerticalLine(g, pen, ytop, topstaff);

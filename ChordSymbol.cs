@@ -53,8 +53,7 @@ namespace NotationPlus
         private Stem stem2;            /** The second stem of the chord. Can be null */
         private bool hastwostems;      /** True if this chord has two stems */
         private SheetMusic sheetmusic; /** Used to get colors and other options */
-        public static bool SpecificBassClefMode = true;
-
+        
         /** Create a new Chord Symbol from the given list of midi notes.
          * All the midi notes will have the same start time.  Use the
          * key signature to get the white key and accidental symbol for
@@ -629,7 +628,7 @@ namespace NotationPlus
                 int xnote = SheetMusic.LineSpace / 4;
                 if (!note.leftside)
                     xnote += SheetMusic.NoteWidth;
-                if (Clef == Clef.Bass && SpecificBassClefMode)
+                if (Clef == Clef.Bass && ClefSymbol.SpecificBassMode && !ClefSymbol.OnlyChangeBassSymbol)
                     ynote -= SheetMusic.NoteHeight;
                 /* Draw rotated ellipse.  You must first translate (0,0)
                  * to the center of the ellipse.

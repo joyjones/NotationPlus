@@ -36,7 +36,8 @@ namespace NotationPlus
         private static Image treble;  /** The treble clef image */
         private static Image bass;    /** The bass clef image */
         private static Image bass2;    /** The bass2 clef image */
-        public bool SpecificBassMode = true;
+        public static bool SpecificBassMode = true;
+        public static bool OnlyChangeBassSymbol = false;// 只改变低音谱号的标记不改变音符
 
         private int starttime;        /** Start time of the symbol */
         private bool smallsize;       /** True if this is a small clef, false otherwise */
